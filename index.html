@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padaria Itapebussu - Guarapari/ES</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #fff9f2;
+            color: #333;
+            line-height: 1.6;
+            transition: all 0.3s;
+        }
+        
+        body.sidebar-open {
+            margin-left: 250px;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: -250px;
+            background-color: #5a3921;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.3);
+        }
+        
+        .sidebar-open .sidebar {
+            left: 0;
+        }
+        
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: #f8e5d6;
+            display: block;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-weight: 500;
+        }
+        
+        .sidebar a:hover {
+            background-color: #7a5c3c;
+            color: #fff;
+            padding-left: 30px;
+        }
+        
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 2rem;
+            margin-left: 50px;
+            border: none;
+            background: none;
+            color: #f8e5d6;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .sidebar .close-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .open-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            background: rgba(90, 57, 33, 0.8);
+            border: none;
+            color: white;
+            z-index: 100;
+            cursor: pointer;
+            display: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .open-btn:hover {
+            background: #5a3921;
+            transform: scale(1.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #5a3921 0%, #8b5a2b 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .slogan {
+            font-style: italic;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #f8e5d6;
+        }
+        
+        .telefone-header {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #f8e5d6;
+            margin-top: 10px;
+        }
+        
+        nav {
+            background-color: #5a3921;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: #f8e5d6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            display: block;
+            font-size: 0.95rem;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: #fff;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #f8e5d6;
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 70%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/0.jpg?raw=true');
+            background-size: cover;
+            background-position: center;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(90, 57, 33, 0.3) 0%, rgba(139, 90, 43, 0.3) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            color: white;
+            font-weight: 700;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #8b5a2b;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 100px;
+        }
+        
+        h2 {
+            color: #5a3921;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            text-align: center;
+            font-size: 2rem;
+            position: relative;
+            font-weight: 700;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #5a3921 0%, #8b5a2b 100%);
+            border-radius: 3px;
+        }
+        
+        .about, .products, .hours, .location {
+            background-color: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .about:hover, .products:hover, .hours:hover, .location:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .product-img {
+            height: 220px;
+            background-color: #f5f5f5;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            margin-bottom: 12px;
+            color: #5a3921;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .product-info p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Tabela de horários */
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px auto;
+            max-width: 500px;
+        }
+        
+        .hours-table tr {
+            transition: background-color 0.3s;
+        }
+        
+        .hours-table tr:hover {
+            background-color: #f9f3e9;
+        }
+        
+        .hours-table td {
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 1.05rem;
+        }
+        
+        .hours-table tr:first-child td {
+            border-top: 1px solid #eee;
+        }
+        
+        .hours-table td:first-child {
+            font-weight: 500;
+            color: #5a3921;
+        }
+        
+        .map-container {
+            height: 450px;
+            margin-top: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #3a2415 0%, #5a3921 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin: 15px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: #f8e5d6;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #f8e5d6;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #f8e5d6;
+            margin-bottom: 12px;
+            display: block;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(248, 229, 214, 0.2);
+            color: #f8e5d6;
+            font-size: 0.9rem;
+        }
+        
+        /* Overlay para quando o sidebar estiver aberto */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+            backdrop-filter: blur(3px);
+        }
+        
+        .sidebar-open .overlay {
+            display: block;
+        }
+
+        /* Carrossel de imagens */
+        .carousel-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel img {
+            width: 100%;
+            flex-shrink: 0;
+            object-fit: cover;
+            height: 450px;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(90, 57, 33, 0.8);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+            transition: all 0.3s;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+        }
+
+        .carousel-btn:hover {
+            background-color: rgba(90, 57, 33, 1);
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        #prevBtn {
+            left: 20px;
+        }
+
+        #nextBtn {
+            right: 20px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background-color: #5a3921;
+            transform: scale(1.2);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .hero {
+                height: 400px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.4rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .open-btn {
+                display: flex;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                height: 350px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            section {
+                scroll-margin-top: 80px;
+            }
+            
+            .about, .products, .hours, .location {
+                padding: 25px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .carousel img {
+                height: 350px;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .hero {
+                height: 300px;
+                margin-bottom: 25px;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            
+            h2 {
+                font-size: 1.7rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .carousel img {
+                height: 250px;
+            }
+
+            .indicator {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Overlay -->
+    <div class="overlay" onclick="closeSidebar()"></div>
+    
+    <!-- Sidebar Menu -->
+    <div id="sidebar" class="sidebar">
+        <button class="close-btn" onclick="closeSidebar()">&times;</button>
+        <a href="#home" onclick="closeSidebar()">Início</a>
+        <a href="#about" onclick="closeSidebar()">Sobre</a>
+        <a href="#products" onclick="closeSidebar()">Produtos</a>
+        <a href="#hours" onclick="closeSidebar()">Horários</a>
+        <a href="#location" onclick="closeSidebar()">Localização</a>
+    </div>
+    
+    <!-- Open Sidebar Button -->
+    <button class="open-btn" onclick="openSidebar()">&#9776;</button>
+    
+    <header>
+        <div class="container">
+            <div class="logo">Padaria Itapebussu</div>
+            <div class="slogan">O verdadeiro sabor da tradição capixaba</div>
+            <div class="telefone-header">27 2180-0364</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Início</a></li>
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#products">Produtos</a></li>
+            <li><a href="#hours">Horários</a></li>
+            <li><a href="#location">Localização</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="home" class="hero" style="background-image: url('https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/0.jpg?raw=true'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+            <div class="hero-content">
+                <h2 style="color: white;">Os melhores pães de Guarapari</h2>
+                <p>Feitos com ingredientes selecionados e muito amor</p>
+                <a href="#products" class="btn">Conheça nossos produtos</a>
+            </div>
+        </section>
+
+        <section id="products" class="products">
+            <h2>Nossos Produtos</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/1.jpeg?raw=true');"></div>
+                    <div class="product-info">
+                        <h3>Pães Artesanais</h3>
+                        <p>Pão francês, integral, de leite, caseiro e muitos outros, todos feitos no forno a lenha.</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/2.png?raw=true');"></div>
+                    <div class="product-info">
+                        <h3>Doces Caseiros</h3>
+                        <p>Bolos, tortas, pudins e sobremesas feitas com receitas tradicionais.</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/3.jpg?raw=true');"></div>
+                    <div class="product-info">
+                        <h3>Salgados</h3>
+                        <p>Coxinhas, empadas, pastéis e outras delícias para o lanche.</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/4.jpg?raw=true');"></div>
+                    <div class="product-info">
+                        <h3>Café da Manhã</h3>
+                        <p>Complete seu café com nossos produtos frescos e café especial.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about" class="about">
+            <h2>Sobre Nós</h2>
+            <p>A Padaria Itapebussu começou sua história em 2013, com o objetivo de trazer para Guarapari os melhores pães e produtos de padaria. Desde então, nos dedicamos a manter a qualidade e o sabor que conquistaram nossos clientes.</p>
+            <p>Nossa missão é simples: oferecer produtos frescos e saborosos, feitos com ingredientes selecionados e muito cuidado. Cada pão que sai do nosso forno carrega a tradição e o carinho de uma padaria de verdade.</p>
+            <p>Venha nos visitar e experimentar o verdadeiro sabor do pão quentinho, feito como antigamente!</p>
+
+            <!-- Carrossel de imagens -->
+            <div class="carousel-container">
+                <div class="carousel">
+                    <img src="https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/5.PNG?raw=true" alt="Pães artesanais">
+                    <img src="https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/6.png?raw=true" alt="Doces caseiros">
+                    <img src="https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/7.PNG?raw=true" alt="Salgados">
+                    <img src="https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/8.png?raw=true" alt="Café da manhã">
+                    <img src="https://github.com/guarabusiness/padaria-itapebussu/blob/main/imagens/9.PNG?raw=true" alt="abc">
+                </div>
+                <button class="carousel-btn" id="prevBtn">&#10094;</button>
+                <button class="carousel-btn" id="nextBtn">&#10095;</button>
+                <div class="carousel-indicators">
+                    <span class="indicator active"></span>
+                    <span class="indicator"></span>
+                    <span class="indicator"></span>
+                    <span class="indicator"></span>
+                    <span class="indicator"></span>
+                </div>
+            </div>
+        </section>
+        
+        <section id="hours" class="hours">
+            <h2>Horário de Funcionamento</h2>
+            <table class="hours-table">
+                <tr>
+                    <td>Segunda a Sábado</td>
+                    <td>06:00 – 20:00</td>
+                </tr>
+                <tr>
+                    <td>Domingo</td>
+                    <td>06:00 – 11:00</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section id="location" class="location">
+            <h2>Localização</h2>
+            <p>Estamos localizados na R. Joaquim de Jesus Ferreira, 594 - Itapebussu, Guarapari - ES, CEP 29210-110</p>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3741.234558773227!2d-40.12345678901234!3d-20.65432109876543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb81d3a9b9a7d5b%3A0x6b5a5e5e5e5e5e5e!2sR.%20Joaquim%20de%20Jesus%20Ferreira%2C%20594%20-%20Itapebussu%2C%20Guarapari%20-%20ES%2C%2029210-110!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Padaria Itapebussu</h3>
+                <p>O verdadeiro sabor da tradição capixaba</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <p>R. Joaquim de Jesus Ferreira, 594</p>
+                <p>Itapebussu, Guarapari - ES</p>
+                <p>CEP: 29210-110</p>
+                <p>Telefone: 27 2180-0364</p>
+            </div>
+            <div class="footer-section">
+                <h3>Informações</h3>
+                <p>Horário de funcionamento:</p>
+                <p>Seg-Sáb: 6h-20h</p>
+                <p>Dom: 6h-11h</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Padaria Itapebussu &copy; 2013 a <span id="ano-atual"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Sidebar Functions
+        function openSidebar() {
+            document.body.classList.add('sidebar-open');
+        }
+
+        function closeSidebar() {
+            document.body.classList.remove('sidebar-open');
+        }
+        
+        // Smooth scroll to section
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Fechar sidebar ao clicar em um link ou fora
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+            
+            // Fechar ao pressionar ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
+            });
+            
+            // Ano atual no footer
+            document.getElementById("ano-atual").textContent = new Date().getFullYear();
+        });
+
+        // Carrossel de imagens
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.carousel');
+            const images = document.querySelectorAll('.carousel img');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            let currentIndex = 0;
+            const totalImages = images.length;
+            
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Atualiza indicadores
+                indicators.forEach((indicator, index) => {
+                    if (index === currentIndex) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Botão próximo
+            nextBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % totalImages;
+                updateCarousel();
+            });
+            
+            // Botão anterior
+            prevBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+                updateCarousel();
+            });
+            
+            // Indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+            });
+            
+            // Auto-play
+            let interval = setInterval(function() {
+                currentIndex = (currentIndex + 1) % totalImages;
+                updateCarousel();
+            }, 5000);
+            
+            // Pausa auto-play quando o mouse está sobre o carrossel
+            const carouselContainer = document.querySelector('.carousel-container');
+            carouselContainer.addEventListener('mouseenter', function() {
+                clearInterval(interval);
+            });
+            
+            carouselContainer.addEventListener('mouseleave', function() {
+                interval = setInterval(function() {
+                    currentIndex = (currentIndex + 1) % totalImages;
+                    updateCarousel();
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>
